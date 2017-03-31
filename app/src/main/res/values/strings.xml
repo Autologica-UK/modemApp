@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ModemApp</string>
+    <string name="message_please_wait">Please wait...</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Autologica Modem</string>
+    <string name="menu_home">Status</string>
+    <string name="menu_sent">Sent</string>
+    <string name="menu_failed">Failed</string>
+
+</resources>

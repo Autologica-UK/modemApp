@@ -1,0 +1,46 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+
+        <item name="colorControlNormal">@color/black_50</item>
+        <item name="colorControlActivated">@color/black_50</item>
+        <item name="colorControlHighlight">@color/black_50</item>
+
+        <!--<style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+            <item name="android:textColor">@color/black_50</item>
+        </style>-->
+
+        <item name="android:navigationBarColor" tools:targetApi="21">@color/colorPrimaryDark</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
+
+    </style>
+
+
+    <style name="MaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="ButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/green_button</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/button_padding</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+    </style>
+
+    <style name="TextAppearence.TextInputLayout.Gray" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/gray_38</item>
+    </style>
+</resources>
