@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="70dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:text="Total: "
             android:textSize="@dimen/text_large"/>
@@ -44,16 +44,16 @@
         android:paddingTop="5dp">
 
         <TextView
-            android:layout_width="70dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:text="Sent: "
+            android:text="Sent / Delivered: "
             android:textSize="@dimen/text_large"/>
 
         <TextView
             android:id="@+id/sent_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="--"
+            android:text="-- / --"
             android:textColor="@color/green"
             android:textSize="@dimen/text_large"/>
     </LinearLayout>
@@ -66,7 +66,7 @@
         android:paddingTop="5dp">
 
         <TextView
-            android:layout_width="70dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:text="Failed: "
             android:textSize="@dimen/text_large"/>

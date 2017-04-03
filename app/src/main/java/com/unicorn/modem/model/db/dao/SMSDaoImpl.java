@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.unicorn.modem.model.db.Sms;
+import com.unicorn.modem.model.db.SmsStatus;
 
 import java.util.List;
 
@@ -94,5 +95,39 @@ public class SMSDaoImpl extends AbstractDao<Sms, Long>
     {
         Sms Sms = get(SmsId);
         return Sms != null;
+    }
+
+    public int totalCount()
+    {
+        return retrieveAll().size();
+    }
+
+    public int deliveredCount()
+    {
+        String selection = " " + Sms.COL_STATUS + " = ? ";
+        String[] args = {String.valueOf(SmsStatus.DELIVERED)};
+        return retrieveAll(selection, args, null, null, null, null).size();
+    }
+
+    public int sentCount()
+    {
+        String selection = " " + Sms.COL_STATUS + " = ? ";
+        String[] args = {String.valueOf(SmsStatus.SENT)};
+        return retrieveAll(selection, args, null, null, null, null).size();
+    }
+
+    public int failedCount()
+    {
+        String selection = " " + Sms.COL_STATUS + " = ? ";
+        String[] args = {String.valueOf(SmsStatus.FAILED)};
+        return retrieveAll(selection, args, null, null, null, null).size();
+    }
+
+
+    public List<Sms> retrieveAllByStatus(SmsStatus status)
+    {
+        String selection = " " + Sms.COL_STATUS + " = ? ";
+        String[] args = {String.valueOf(status.getValue())};
+        return retrieveAll(selection, args, null, null, null, null);
     }
 }

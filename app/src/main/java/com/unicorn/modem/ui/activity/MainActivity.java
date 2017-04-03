@@ -1,7 +1,6 @@
 package com.unicorn.modem.ui.activity;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,17 +21,24 @@ import android.widget.LinearLayout;
 import com.unicorn.modem.R;
 import com.unicorn.modem.model.db.Sms;
 import com.unicorn.modem.model.db.SmsStatus;
+import com.unicorn.modem.model.db.dao.SMSDaoImpl;
+import com.unicorn.modem.model.event.UpdateEvent;
+import com.unicorn.modem.reciever.TrackerAlarmReceiver;
 import com.unicorn.modem.ui.fragment.HomeFragment;
-import com.unicorn.modem.ui.fragment.SmsListFragment;
+import com.unicorn.modem.ui.fragment.SmsListSentFragment;
+import com.unicorn.modem.util.Constant;
+import com.unicorn.modem.util.DateConverter;
 
-import java.util.List;
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.unicorn.modem.util.Constant.ACTION_SMS_DELIVERED;
+import static com.unicorn.modem.util.Constant.ACTION_SMS_SENT;
+
 public class MainActivity extends AppCompatActivity
 {
-    private static final String ACTION_SMS_SENT = "com.unicorn.modem.action.SMS_SENT";
     private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.content)
     FrameLayout content;
@@ -43,6 +49,7 @@ public class MainActivity extends AppCompatActivity
 
     private Fragment fragment;
     private FragmentManager fragmentManager;
+    private SMSDaoImpl smsDao = new SMSDaoImpl();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener()
@@ -57,10 +64,10 @@ public class MainActivity extends AppCompatActivity
                     fragment = new HomeFragment();
                     break;
                 case R.id.navigation_dashboard:
-                    fragment = SmsListFragment.getInstance(SmsStatus.SENT);
+                    fragment = SmsListSentFragment.getInstance(SmsStatus.SENT);
                     break;
                 case R.id.navigation_notifications:
-                    fragment = SmsListFragment.getInstance(SmsStatus.FAILED);
+                    fragment = SmsListSentFragment.getInstance(SmsStatus.FAILED);
                     break;
             }
             final FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -90,6 +97,7 @@ public class MainActivity extends AppCompatActivity
             {
                 String message = null;
                 boolean error = true;
+
                 switch (getResultCode())
                 {
                     case Activity.RESULT_OK:
@@ -110,21 +118,71 @@ public class MainActivity extends AppCompatActivity
                         break;
                 }
 
-                Log.d(TAG, "Msg delivery report :" + message);
+                String msgId = "";
+                if (intent != null)
+                {
+                    msgId = intent.getStringExtra(Constant.SMS_ID);
+                    if (msgId != null && !msgId.equals(""))
+                    {
+                        Long id = Long.valueOf(msgId);
+                        Sms sms = smsDao.retrieve(id);
+                        sms.setStatus(error ? SmsStatus.FAILED.getValue() : SmsStatus.SENT.getValue());
+                        sms.setUpdateDateTime(DateConverter.getCurrentDate());
+                        smsDao.update(sms);
+                    }
+                }
+                Log.d(TAG, "Msg " + msgId + " delivery report :" + message);
             }
         }, new IntentFilter(ACTION_SMS_SENT));
-    }
-
-    public void sendMsg(Sms sms)
-    {
-        String msg = sms.getMsg();
-        String to = sms.getRecordNo();
-        SmsManager smsManager = SmsManager.getDefault();
-        List<String> messages = smsManager.divideMessage(msg);
-        for (String message : messages)
+        registerReceiver(new BroadcastReceiver()
         {
-            smsManager.sendTextMessage(to, null, message,
-                    PendingIntent.getBroadcast(this, 0, new Intent(ACTION_SMS_SENT), 0), null);
-        }
+            @Override
+            public void onReceive(Context context, Intent intent)
+            {
+                String message = null;
+                boolean error = true;
+                switch (getResultCode())
+                {
+                    case Activity.RESULT_OK:
+                        message = "Message sent!";
+                        error = false;
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        message = "Error.";
+                        break;
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        message = "Error: No service.";
+                        break;
+                    case SmsManager.RESULT_ERROR_NULL_PDU:
+                        message = "Error: Null PDU.";
+                        break;
+                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+                        message = "Error: Radio off.";
+                        break;
+                }
+
+                String msgId = "";
+                if (intent != null)
+                {
+                    msgId = intent.getStringExtra(Constant.SMS_ID);
+                    if (msgId != null && !msgId.equals(""))
+                    {
+                        Long id = Long.valueOf(msgId);
+                        Sms sms = smsDao.retrieve(id);
+                        sms.setStatus(error ? SmsStatus.FAILED.getValue() : SmsStatus.DELIVERED.getValue());
+                        sms.setUpdateDateTime(DateConverter.getCurrentDate());
+                        smsDao.update(sms);
+                    }
+                }
+                EventBus.getDefault().post(new UpdateEvent());
+                Log.d(TAG, "Msg delivery report :" + message);
+            }
+        }, new IntentFilter(ACTION_SMS_DELIVERED));
+
+     /*   Sms s = new Sms(123L, 1, "+989367592641", "Hello Vahid from ModemApp");
+        s.setId(2L);
+        sendMsg(s);*/
+
+        new TrackerAlarmReceiver().setAlarm(this);
     }
 }

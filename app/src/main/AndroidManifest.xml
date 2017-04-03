@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:name=".ModemApplication"
@@ -22,6 +23,27 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+
+        <receiver android:name=".reciever.TrackerAlarmReceiver">
+            <intent-filter>
+                <action android:name="com.unicorn.modem.reciever.TrackerAlarmReceiver"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".reciever.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.SmsSenderIntentService"
+            android:exported="false">
+        </service>
+        <service
+            android:name=".service.SmsRecieverService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

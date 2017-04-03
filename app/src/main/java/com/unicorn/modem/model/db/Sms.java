@@ -1,5 +1,7 @@
 package com.unicorn.modem.model.db;
 
+import com.unicorn.modem.util.DateConverter;
+
 public class Sms extends BaseEntity<Long>
 {
     public static final String TABLE_NAME = "SMS";
@@ -12,7 +14,7 @@ public class Sms extends BaseEntity<Long>
 
     public static final String CREATE_TABLE_SQL = "CREATE TABLE " + Sms.TABLE_NAME + " (" +
             " " + Sms.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " +
-            " " + Sms.COL_MSG_ID + " INTEGER," +
+            " " + Sms.COL_MSG_ID + " INTEGER NOT NULL UNIQUE," +
             " " + Sms.COL_PRIORITY + " INTEGER," +
             " " + Sms.COL_RECORD_NO + " TEXT," +
             " " + Sms.COL_MSG + " TEXT," +
@@ -39,6 +41,8 @@ public class Sms extends BaseEntity<Long>
         this.priority = priority;
         this.recordNo = recordNo;
         this.msg = msg;
+        this.createDateTime = DateConverter.getCurrentDate();
+        this.updateDateTime = DateConverter.getCurrentDate();
     }
 
     public Integer getStatus()

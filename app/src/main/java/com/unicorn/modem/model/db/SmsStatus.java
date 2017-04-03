@@ -2,16 +2,16 @@ package com.unicorn.modem.model.db;
 
 public enum SmsStatus
 {
-    SENT(1L, "SENT"),
-    PENDING(2L, "PENDING"),
-    FAILED(3L, "FAILED"),
-    FAKE(4L, "FAKE")
-    ;
+    SENT(1, "SENT"),
+    PENDING(2, "PENDING"),
+    FAILED(3, "FAILED"),
+    FAKE(4, "FAKE"),
+    DELIVERED(5, "DELIVERED");
 
-    private long value;
+    private int value;
     private String title;
 
-    SmsStatus(long value, String title)
+    SmsStatus(int value, String title)
     {
         this.value = value;
         this.title = title;
@@ -45,12 +45,12 @@ public enum SmsStatus
         return found;
     }
 
-    public long getValue()
+    public int getValue()
     {
         return value;
     }
 
-    public void setValue(long value)
+    public void setValue(int value)
     {
         this.value = value;
     }

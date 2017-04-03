@@ -1,27 +1,39 @@
 package com.unicorn.modem.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.unicorn.modem.R;
-import com.unicorn.modem.model.db.SmsStatus;
+import com.unicorn.modem.model.db.dao.SMSDaoImpl;
 import com.unicorn.modem.model.event.Event;
+import com.unicorn.modem.model.event.UpdateEvent;
 import com.unicorn.modem.service.impl.SmsServiceImpl;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- *
+ * @author Arashmidos
  */
 public class HomeFragment extends BaseFragment
 {
+    private static String TAG = HomeFragment.class.getSimpleName();
     private static HomeFragment fragment;
+    @BindView(R.id.total_no)
+    TextView totalNo;
+    @BindView(R.id.sent_no)
+    TextView sentNo;
+    @BindView(R.id.failed_no)
+    TextView failedNo;
     private SmsServiceImpl smsService;
+    private SMSDaoImpl smsDao = new SMSDaoImpl();
 
     public HomeFragment()
     {
@@ -53,7 +65,7 @@ public class HomeFragment extends BaseFragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
 
-        smsService = new SmsServiceImpl();
+        smsService = new SmsServiceImpl(getActivity());
         smsService.getSmsList();
 
         return view;
@@ -76,6 +88,13 @@ public class HomeFragment extends BaseFragment
     @Subscribe
     public void getMessage(Event event)
     {
-        dismissProgressDialog();
+//        dismissProgressDialog();
+        Log.d(TAG, "database updated");
+        if (event instanceof UpdateEvent)
+        {
+            totalNo.setText(String.valueOf(smsDao.totalCount()));
+            sentNo.setText(String.format("%s / %s", smsDao.sentCount(), smsDao.deliveredCount()));
+            failedNo.setText(String.valueOf(smsDao.failedCount()));
+        }
     }
 }
