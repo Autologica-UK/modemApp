@@ -42,13 +42,12 @@ public class SmsListFailedFragment extends BaseFragment
 
     public static SmsListFailedFragment getInstance(SmsStatus sentStatus)
     {
-        if (fragment == null)
-        {
-            fragment = new SmsListFailedFragment();
-            Bundle args = new Bundle();
-            args.putLong("STATUS", sentStatus.getValue());
-            fragment.setArguments(args);
-        }
+
+        SmsListFailedFragment fragment = new SmsListFailedFragment();
+        Bundle args = new Bundle();
+        args.putLong("STATUS", sentStatus.getValue());
+        fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -98,12 +97,7 @@ public class SmsListFailedFragment extends BaseFragment
     @Subscribe
     public void getMessage(Event event)
     {
-        dismissProgressDialog();
+
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-    }
 }

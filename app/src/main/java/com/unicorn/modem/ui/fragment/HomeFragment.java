@@ -37,18 +37,11 @@ public class HomeFragment extends BaseFragment
 
     public HomeFragment()
     {
-
     }
 
     public static HomeFragment getInstance()
     {
-
-        if (fragment == null)
-        {
-            fragment = new HomeFragment();
-        }
-
-        return fragment;
+        return new HomeFragment();
     }
 
     @Override
@@ -67,6 +60,13 @@ public class HomeFragment extends BaseFragment
 
         smsService = new SmsServiceImpl(getActivity());
         smsService.getSmsList();
+
+        totalNo.setText(String.valueOf(smsDao.totalCount()));
+        int sentCount = smsDao.sentCount();
+        int deliveredCount = smsDao.deliveredCount();
+        //TODO: Delivery has problem in distinguish which message is delivered
+        sentNo.setText(String.format("%s / %s", sentCount + deliveredCount, deliveredCount + sentCount));
+        failedNo.setText(String.valueOf(smsDao.failedCount()));
 
         return view;
     }
@@ -88,13 +88,22 @@ public class HomeFragment extends BaseFragment
     @Subscribe
     public void getMessage(Event event)
     {
-//        dismissProgressDialog();
         Log.d(TAG, "database updated");
         if (event instanceof UpdateEvent)
         {
-            totalNo.setText(String.valueOf(smsDao.totalCount()));
-            sentNo.setText(String.format("%s / %s", smsDao.sentCount(), smsDao.deliveredCount()));
-            failedNo.setText(String.valueOf(smsDao.failedCount()));
+            getActivity().runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    totalNo.setText(String.valueOf(smsDao.totalCount()));
+                    int sentCount = smsDao.sentCount();
+                    int deliveredCount = smsDao.deliveredCount();
+                    //TODO: Update this for delivery bug
+                    sentNo.setText(String.format("%s / %s", sentCount + deliveredCount, deliveredCount + sentCount));
+                    failedNo.setText(String.valueOf(smsDao.failedCount()));
+                }
+            });
         }
     }
 }

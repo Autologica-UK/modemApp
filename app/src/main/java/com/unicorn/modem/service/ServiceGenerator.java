@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceGenerator
 {
     //TODO: replace this
-    public static final String API_BASE_URL ="http://www.qcabs.co.uk";//BuildConfig.HOST;
+    public static final String API_BASE_URL = "http://www.qcabs.co.uk";//BuildConfig.HOST;
 
     private static Retrofit retrofit;
     private static OkHttpClient.Builder httpClient =
@@ -68,14 +68,13 @@ public class ServiceGenerator
                 httpClient.addInterceptor(interceptor);
             }
         }
-            if (BuildConfig.DEBUG)
-            {
-                httpClient.addInterceptor(logging);
-            }
+        if (BuildConfig.DEBUG && !httpClient.interceptors().contains(logging))
+        {
+            httpClient.addInterceptor(logging);
+        }
 
-            builder.client(httpClient.build());
-            retrofit = builder.build();
-
+        builder.client(httpClient.build());
+        retrofit = builder.build();
 
         return retrofit.create(serviceClass);
     }

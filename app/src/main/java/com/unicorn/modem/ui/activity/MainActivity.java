@@ -1,10 +1,6 @@
 package com.unicorn.modem.ui.activity;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,30 +8,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.SmsManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.unicorn.modem.R;
 import com.unicorn.modem.model.db.Sms;
 import com.unicorn.modem.model.db.SmsStatus;
 import com.unicorn.modem.model.db.dao.SMSDaoImpl;
-import com.unicorn.modem.model.event.UpdateEvent;
 import com.unicorn.modem.reciever.TrackerAlarmReceiver;
 import com.unicorn.modem.ui.fragment.HomeFragment;
+import com.unicorn.modem.ui.fragment.SmsListFailedFragment;
 import com.unicorn.modem.ui.fragment.SmsListSentFragment;
-import com.unicorn.modem.util.Constant;
-import com.unicorn.modem.util.DateConverter;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.unicorn.modem.util.Constant.ACTION_SMS_DELIVERED;
-import static com.unicorn.modem.util.Constant.ACTION_SMS_SENT;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -46,6 +37,8 @@ public class MainActivity extends AppCompatActivity
     BottomNavigationView navigation;
     @BindView(R.id.container)
     LinearLayout container;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private Fragment fragment;
     private FragmentManager fragmentManager;
@@ -61,17 +54,19 @@ public class MainActivity extends AppCompatActivity
             switch (item.getItemId())
             {
                 case R.id.navigation_home:
-                    fragment = new HomeFragment();
+                    fragment = HomeFragment.getInstance();
                     break;
                 case R.id.navigation_dashboard:
                     fragment = SmsListSentFragment.getInstance(SmsStatus.SENT);
                     break;
                 case R.id.navigation_notifications:
-                    fragment = SmsListSentFragment.getInstance(SmsStatus.FAILED);
+                    fragment = SmsListFailedFragment.getInstance(SmsStatus.FAILED);
                     break;
             }
-            final FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.content, fragment).commit();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.content, fragment);
+//            transaction.addToBackStack(null);
+            transaction.commit();
             return true;
         }
 
@@ -86,103 +81,47 @@ public class MainActivity extends AppCompatActivity
 
         fragmentManager = getSupportFragmentManager();
         fragment = new HomeFragment();
-        final FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.content, fragment).commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.content, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        registerReceiver(new BroadcastReceiver()
-        {
-            @Override
-            public void onReceive(Context context, Intent intent)
-            {
-                String message = null;
-                boolean error = true;
-
-                switch (getResultCode())
-                {
-                    case Activity.RESULT_OK:
-                        message = "Message sent!";
-                        error = false;
-                        break;
-                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        message = "Error.";
-                        break;
-                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        message = "Error: No service.";
-                        break;
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        message = "Error: Null PDU.";
-                        break;
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        message = "Error: Radio off.";
-                        break;
-                }
-
-                String msgId = "";
-                if (intent != null)
-                {
-                    msgId = intent.getStringExtra(Constant.SMS_ID);
-                    if (msgId != null && !msgId.equals(""))
-                    {
-                        Long id = Long.valueOf(msgId);
-                        Sms sms = smsDao.retrieve(id);
-                        sms.setStatus(error ? SmsStatus.FAILED.getValue() : SmsStatus.SENT.getValue());
-                        sms.setUpdateDateTime(DateConverter.getCurrentDate());
-                        smsDao.update(sms);
-                    }
-                }
-                Log.d(TAG, "Msg " + msgId + " delivery report :" + message);
-            }
-        }, new IntentFilter(ACTION_SMS_SENT));
-        registerReceiver(new BroadcastReceiver()
-        {
-            @Override
-            public void onReceive(Context context, Intent intent)
-            {
-                String message = null;
-                boolean error = true;
-                switch (getResultCode())
-                {
-                    case Activity.RESULT_OK:
-                        message = "Message sent!";
-                        error = false;
-                        break;
-                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        message = "Error.";
-                        break;
-                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        message = "Error: No service.";
-                        break;
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        message = "Error: Null PDU.";
-                        break;
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        message = "Error: Radio off.";
-                        break;
-                }
-
-                String msgId = "";
-                if (intent != null)
-                {
-                    msgId = intent.getStringExtra(Constant.SMS_ID);
-                    if (msgId != null && !msgId.equals(""))
-                    {
-                        Long id = Long.valueOf(msgId);
-                        Sms sms = smsDao.retrieve(id);
-                        sms.setStatus(error ? SmsStatus.FAILED.getValue() : SmsStatus.DELIVERED.getValue());
-                        sms.setUpdateDateTime(DateConverter.getCurrentDate());
-                        smsDao.update(sms);
-                    }
-                }
-                EventBus.getDefault().post(new UpdateEvent());
-                Log.d(TAG, "Msg delivery report :" + message);
-            }
-        }, new IntentFilter(ACTION_SMS_DELIVERED));
-
-     /*   Sms s = new Sms(123L, 1, "+989367592641", "Hello Vahid from ModemApp");
-        s.setId(2L);
-        sendMsg(s);*/
-
         new TrackerAlarmReceiver().setAlarm(this);
+
+        setSupportActionBar(toolbar);
     }
+
+    public void createTempData()
+    {
+        SMSDaoImpl smsDao = new SMSDaoImpl();
+
+        for (int i = 0; i < 10; i++)
+        {
+            Sms sms = new Sms(i * 10L, i, "+9899912312" + i, "Hello unknown people" + i);
+            sms.setStatus(SmsStatus.PENDING.getValue());
+
+            long id = smsDao.create(sms);
+            Log.d(TAG, "Temp SMS Created with id" + id);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.settings:
+                startActivity(new Intent(this, SettingActivity.class));
+        }
+        return true;
+    }
+
 }

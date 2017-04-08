@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'android-apt'
 
@@ -83,6 +98,9 @@ dependencies {
 
 
 
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
+        transitive = true;
+    }
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:support-v4:25.0.0'
     compile 'com.android.support:design:25.0.0'
@@ -97,6 +115,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
     compile 'com.android.support:support-vector-drawable:25.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     provided 'javax.annotation:jsr250-api:1.0'
 }

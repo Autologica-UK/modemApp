@@ -11,9 +11,9 @@ import com.unicorn.modem.model.event.UpdateEvent;
 import com.unicorn.modem.model.response.SMSMessage;
 import com.unicorn.modem.model.response.SmsResponse;
 import com.unicorn.modem.service.ServiceGenerator;
-import com.unicorn.modem.service.SmsRecieverService;
 import com.unicorn.modem.service.SmsSenderIntentService;
 import com.unicorn.modem.service.SmsService;
+import com.unicorn.modem.util.DateConverter;
 import com.unicorn.modem.util.PreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,6 +40,7 @@ public class SmsServiceImpl
 
     public void getSmsList()
     {
+        Log.d(TAG, DateConverter.getCurrentDate());
         SmsService userService = ServiceGenerator.createService(SmsService.class);
         Call<SmsResponse> call = userService.getSmsList(PreferenceHelper.getBizId(), PreferenceHelper.getModemNo());
 

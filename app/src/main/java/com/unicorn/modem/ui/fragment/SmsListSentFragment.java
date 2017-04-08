@@ -95,13 +95,7 @@ public class SmsListSentFragment extends BaseFragment
     @Subscribe
     public void getMessage(Event event)
     {
-        dismissProgressDialog();
-    }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
     }
 
 }

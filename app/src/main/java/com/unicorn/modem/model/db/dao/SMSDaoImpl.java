@@ -105,21 +105,21 @@ public class SMSDaoImpl extends AbstractDao<Sms, Long>
     public int deliveredCount()
     {
         String selection = " " + Sms.COL_STATUS + " = ? ";
-        String[] args = {String.valueOf(SmsStatus.DELIVERED)};
+        String[] args = {String.valueOf(SmsStatus.DELIVERED.getValue())};
         return retrieveAll(selection, args, null, null, null, null).size();
     }
 
     public int sentCount()
     {
         String selection = " " + Sms.COL_STATUS + " = ? ";
-        String[] args = {String.valueOf(SmsStatus.SENT)};
+        String[] args = {String.valueOf(SmsStatus.SENT.getValue())};
         return retrieveAll(selection, args, null, null, null, null).size();
     }
 
     public int failedCount()
     {
         String selection = " " + Sms.COL_STATUS + " = ? ";
-        String[] args = {String.valueOf(SmsStatus.FAILED)};
+        String[] args = {String.valueOf(SmsStatus.FAILED.getValue())};
         return retrieveAll(selection, args, null, null, null, null).size();
     }
 
@@ -127,7 +127,12 @@ public class SMSDaoImpl extends AbstractDao<Sms, Long>
     public List<Sms> retrieveAllByStatus(SmsStatus status)
     {
         String selection = " " + Sms.COL_STATUS + " = ? ";
+        if (status.equals(SmsStatus.SENT))
+        {
+            selection = selection + " OR " + Sms.COL_STATUS + " = 5 ";
+        }
         String[] args = {String.valueOf(status.getValue())};
-        return retrieveAll(selection, args, null, null, null, null);
+        String orderBy = Sms.COL_PRIORITY + " ASC ";
+        return retrieveAll(selection, args, null, null, orderBy, null);
     }
 }
