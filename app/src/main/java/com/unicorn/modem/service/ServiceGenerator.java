@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceGenerator
 {
     //TODO: replace this
-    public static final String API_BASE_URL = "http://www.qcabs.co.uk";//BuildConfig.HOST;
+    public static final String API_BASE_URL = "http://www.brentcabs.co.uk";//BuildConfig.HOST;
 
     private static Retrofit retrofit;
     private static OkHttpClient.Builder httpClient =
