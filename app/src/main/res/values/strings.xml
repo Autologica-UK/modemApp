@@ -1,14 +1,24 @@
 <resources>
-    <string name="app_name">ModemApp</string>
-    <string name="message_please_wait">Please wait...</string>
-    <string name="title_activity_main">Autologica</string>
-    <string name="title_home">Modem Status</string>
-    <string name="menu_home">Status</string>
-    <string name="menu_sent">Sent</string>
-    <string name="menu_failed">Failed</string>
-    <string name="settings">Settings</string>
-    <string name="business_id">Business ID</string>
-    <string name="time_interval">Update interval</string>
-    <string name="save_button">Save</string>
+  <string name="app_name">ModemApp</string>
+  <string name="message_please_wait">Please wait...</string>
+  <string name="title_activity_main">Autologica</string>
+  <string name="title_home">Modem Status</string>
+  <string name="menu_home">Status</string>
+  <string name="menu_sent">Sent</string>
+  <string name="menu_failed">Failed</string>
+  <string name="menu_received">Received</string>
+  <string name="settings">Settings</string>
+  <string name="business_id">Business ID</string>
+  <string name="time_interval">Update interval (Sec)</string>
+  <string name="save_button">Save</string>
+  <string name="sample_url">http://192.168.1.1</string>
+  <string name="login">Login</string>
+  <string name="cancel">Cancel</string>
+  <string name="password_label">Password:</string>
+  <string name="username_label">Username:</string>
+  <string name="login_to_setting">Login to Modem App</string>
+  <string name="error_username_is_empty">Username is required</string>
+  <string name="error_password_is_empty">Password is required</string>
+  <string name="error_invalid_login">Password is not valid</string>
 
 </resources>

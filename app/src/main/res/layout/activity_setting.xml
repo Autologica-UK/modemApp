@@ -1,119 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  tools:context="com.unicorn.modem.ui.activity.SettingActivity">
+
+  <android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    app:titleTextColor="@color/white" />
+
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.unicorn.modem.ui.activity.SettingActivity">
+    android:padding="16dp"
+    android:orientation="vertical">
+    <LinearLayout
+      android:id="@+id/url_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      android:gravity="right|center_vertical"
+      android:orientation="horizontal">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+      <TextView
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:titleTextColor="@color/white"/>
+        android:text="Server IP:" />
+
+      <EditText
+        android:id="@+id/ip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="30dp"
+        android:hint="@string/sample_url"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:enabled="false"
+        android:textSize="14sp" />
+    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+      android:id="@+id/business_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      android:gravity="right|center_vertical"
+      android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/business_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="right|center_vertical"
-            android:orientation="horizontal">
+      <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Business ID:" />
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Business ID:"/>
-
-            <EditText
-                android:id="@+id/business_id"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_weight="1"
-                android:enabled="false"
-                android:hint="@string/business_id"
-                android:imeOptions="actionNext"
-                android:inputType="number"
-                android:maxLines="1"
-                android:text="1"
-                android:textSize="14sp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/interval_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="right|center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Update interval:"/>
-
-            <EditText
-                android:id="@+id/interval_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_weight="1"
-                android:enabled="false"
-                android:hint="@string/time_interval"
-                android:imeOptions="actionNext"
-                android:inputType="number"
-                android:maxLines="1"
-                android:text="60"
-                android:textSize="14sp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/modem_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="27dp"
-            android:gravity="right|center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Modem No:"/>
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/modem_no"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_weight="1"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="32dp"
-            android:background="@color/green"
-            android:padding="16dp"
-            android:text="@string/save_button"
-            android:textColor="@color/white"
-            android:textSize="18dp"/>
+      <EditText
+        android:id="@+id/business_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="30dp"
+        android:hint="@string/business_id"
+        android:imeOptions="actionNext"
+        android:inputType="number"
+        android:maxLines="1"
+        android:text="1"
+        android:enabled="false"
+        android:textSize="14sp" />
     </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/interval_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      android:gravity="right|center_vertical"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Update interval:" />
+
+      <EditText
+        android:id="@+id/interval_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="30dp"
+        android:hint="@string/time_interval"
+        android:imeOptions="actionNext"
+        android:inputType="number"
+        android:maxLines="1"
+        android:text="60"
+        android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/modem_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="27dp"
+      android:gravity="right|center_vertical"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Modem No:" />
+
+      <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/modem_no"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="30dp" />
+    </LinearLayout>
+
+    <View
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      android:layout_weight="1" />
+
+    <Button
+      android:id="@+id/save_button"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="32dp"
+      android:layout_marginLeft="16dp"
+      android:layout_marginRight="16dp"
+      android:padding="16dp"
+      android:background="@color/green"
+      android:text="@string/save_button"
+      android:textColor="@color/white"
+      android:textSize="18dp" />
+  </LinearLayout>
 </LinearLayout>

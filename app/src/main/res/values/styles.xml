@@ -1,18 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+  <!-- Base application theme. -->
+  <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
 
 
-    </style>
+  </style>
 
-    <style name="AppTheme" parent="AppBaseTheme">
+  <style name="AppTheme" parent="AppBaseTheme">
 
-        <item name="android:navigationBarColor" tools:targetApi="21">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/white</item>
-    </style>
+    <item name="android:navigationBarColor" tools:targetApi="21">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/white</item>
+  </style>
 
-    <style name="ToolbarColored" parent="AppTheme">
-        <item name="android:textColorSecondary">@color/white</item>
-    </style>
+  <style name="ToolbarColored" parent="AppTheme">
+    <item name="android:textColorSecondary">@color/white</item>
+  </style>
 </resources>

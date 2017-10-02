@@ -5,28 +5,31 @@ import java.io.Serializable;
 /**
  * Created by Arashmidos on 2017-03-31.
  */
-public class Event implements Serializable
-{
-    protected String message;
-    protected int statusCode;
+public class Event implements Serializable {
 
-    public int getStatusCode()
-    {
-        return statusCode;
-    }
+  protected String message;
+  protected int statusCode;
 
-    public void setStatusCode(int statusCode)
-    {
-        this.statusCode = statusCode;
-    }
+  public int getStatusCode() {
+    return statusCode;
+  }
 
-    public String getMessage()
-    {
-        return message;
-    }
+  public void setStatusCode(int statusCode) {
+    this.statusCode = statusCode;
+  }
 
-    public void setMessage(String message)
-    {
-        this.message = message;
-    }
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
+  public Event() {
+  }
+
+  public Event(int statusCode) {
+    this.statusCode = statusCode;
+  }
 }

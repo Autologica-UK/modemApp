@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--
+  <!--
 100% — FF
 95% — F2
 90% — E6
@@ -22,22 +22,22 @@
 10% — 1A
 5% — 0D
 0% — 00-->
-    <!--Blue 600-->
-    <color name="colorPrimaryLight">#1e88e5</color>
-    <!--Blue 700-->
-    <color name="colorPrimary">#1976d2</color>
-    <color name="blue700">#1976d2</color>
-    <!--Blue 800-->
-    <color name="colorPrimaryDark">#1565C0</color>
-    <color name="colorAccent">#ffc107</color>
-    <color name="white">#ffffff</color>
-    <color name="navigationBarColor">@android:color/holo_red_dark</color>
-    <color name="white_50">#80ffffff</color>
-    <color name="gray_38">#66000000</color>
-    <color name="black_50">#80000000</color>
-    <color name="green">#4caf50</color>
-    <color name="material_grey_500">#9e9e9e</color>
-    <color name="black">#000000</color>
-    <color name="red">#ff0000</color>
+  <!--Blue 600-->
+  <color name="colorPrimaryLight">#1e88e5</color>
+  <!--Blue 700-->
+  <color name="colorPrimary">#1976d2</color>
+  <color name="blue700">#1976d2</color>
+  <!--Blue 800-->
+  <color name="colorPrimaryDark">#1565C0</color>
+  <color name="colorAccent">#ffc107</color>
+  <color name="white">#ffffff</color>
+  <color name="navigationBarColor">@android:color/holo_red_dark</color>
+  <color name="white_50">#80ffffff</color>
+  <color name="gray_38">#66000000</color>
+  <color name="black_50">#80000000</color>
+  <color name="green">#4caf50</color>
+  <color name="material_grey_500">#9e9e9e</color>
+  <color name="black">#000000</color>
+  <color name="red">#ff0000</color>
 
 </resources>

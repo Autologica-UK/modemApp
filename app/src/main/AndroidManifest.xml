@@ -1,67 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.unicorn.modem">
+  package="com.unicorn.modem">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+  <uses-permission android:name="android.permission.READ_SMS" />
+  <uses-permission android:name="android.permission.SEND_SMS" />
+  <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
-    <application
-        android:name=".ModemApplication"
-        android:allowBackup="true"
-        android:icon="@drawable/ic_message_24dp"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.activity.MainActivity"
-            android:label="@string/title_activity_main">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+  <application
+    android:allowBackup="true"
+    android:icon="@drawable/ic_message_24dp"
+    android:label="@string/app_name"
+    android:name=".ModemApplication"
+    android:theme="@style/AppTheme">
+    <activity
+      android:label="@string/title_activity_main"
+      android:name=".ui.activity.MainActivity"></activity>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+    <receiver android:name=".reciever.TrackerAlarmReceiver">
+      <intent-filter>
+        <action android:name="com.unicorn.modem.reciever.TrackerAlarmReceiver" />
+      </intent-filter>
+    </receiver>
+    <receiver android:name=".reciever.BootReceiver">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+      </intent-filter>
+    </receiver>
 
-        <receiver android:name=".reciever.TrackerAlarmReceiver">
-            <intent-filter>
-                <action android:name="com.unicorn.modem.reciever.TrackerAlarmReceiver"/>
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".reciever.BootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            </intent-filter>
-        </receiver>
+    <service
+      android:exported="false"
+      android:name=".service.SmsSenderIntentService" />
+    <service
+      android:exported="false"
+      android:name=".service.SmsRecieverService" />
 
-        <service
-            android:name=".service.SmsSenderIntentService"
-            android:exported="false">
-        </service>
-        <service
-            android:name=".service.SmsRecieverService"
-            android:exported="false">
-        </service>
+    <receiver
+      android:enabled="true"
+      android:exported="true"
+      android:name=".reciever.SmsDeliveredReceiver">
+      <intent-filter>
+        <action android:name="com.unicorn.modem.action.SMS_DELIVERED" />
+      </intent-filter>
+    </receiver>
+    <receiver
+      android:exported="true"
+      android:name=".reciever.SmsBroadcastReceiver">
+      <intent-filter android:priority="999">
+        <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+      </intent-filter>
+    </receiver>
 
-        <receiver
-            android:name=".reciever.SmsDeliveredReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.unicorn.modem.action.SMS_DELIVERED"/>
-            </intent-filter>
-        </receiver>
+    <meta-data
+      android:name="io.fabric.ApiKey"
+      android:value="518207c379ebc39bb23c30814db31c498a7bc3e2" />
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="518207c379ebc39bb23c30814db31c498a7bc3e2"/>
+    <activity
+      android:label="@string/settings"
+      android:name=".ui.activity.SettingActivity" />
+    <activity android:name=".ui.activity.LoginActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
 
-        <activity
-            android:name=".ui.activity.SettingActivity"
-            android:label="@string/settings">
-        </activity>
-    </application>
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+  </application>
 
 </manifest>
