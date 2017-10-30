@@ -7,22 +7,34 @@ import org.simpleframework.xml.Element;
  */
 public class BizInfo {
 
-  @Element(name = "biz")
+  @Element(name = "biz", required = false)
   private int bizId;
+  @Element(name = "utdsbiz", required = false)
+  private int utdsBiz;
   @Element(name = "bizname")
   private String bizName;
-  @Element(name = "bizemail")
+  @Element(name = "bizemail", required = false)
   private String bizEmail;
-  @Element(name = "bizphone")
+  @Element(name = "bizphone", required = false)
   private String bizPhone;
   @Element(name = "bizpc")
   private String bizPostCode;
   @Element(name = "murl")
   private String url;
-  @Element(name = "mcall")
+  @Element(name = "mcall", required = false)
   private int mcall;
+  @Element(name = "mport")
+  private int port;
 
   public BizInfo() {
+  }
+
+  public int getPort() {
+    return port;
+  }
+
+  public void setPort(int port) {
+    this.port = port;
   }
 
   public int getBizId() {
@@ -79,5 +91,13 @@ public class BizInfo {
 
   public void setMcall(int mcall) {
     this.mcall = mcall;
+  }
+
+  public int getUtdsBiz() {
+    return utdsBiz;
+  }
+
+  public void setUtdsBiz(int utdsBiz) {
+    this.utdsBiz = utdsBiz;
   }
 }

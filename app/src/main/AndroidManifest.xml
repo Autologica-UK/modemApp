@@ -19,7 +19,7 @@
     android:theme="@style/AppTheme">
     <activity
       android:label="@string/title_activity_main"
-      android:name=".ui.activity.MainActivity"></activity>
+      android:name=".ui.activity.MainActivity" />
 
     <receiver android:name=".reciever.TrackerAlarmReceiver">
       <intent-filter>

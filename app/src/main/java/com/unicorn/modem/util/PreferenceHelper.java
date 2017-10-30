@@ -4,10 +4,11 @@ import com.unicorn.modem.ModemApplication;
 
 public class PreferenceHelper {
 
+  public static final String SERVER_URL = "SERVER_URL";
   private static final String MODEM_NO = "MODEM_NO";
   private static final String UPDATE_INTERVAL = "UPDATE_INTERVAL";
   private static final String BIZ_ID = "BIZ_ID";
-  public static final String SERVER_URL = "SERVER_URL";
+  private static final String BIZ_PORT = "BIZ_PORT";
 
   public static int getModemNo() {
     return ModemApplication.getPreference().getInt(MODEM_NO, 1);
@@ -41,4 +42,11 @@ public class PreferenceHelper {
     ModemApplication.getPreference().edit().putString(SERVER_URL, url).apply();
   }
 
+  public static String getBizPort() {
+    return ModemApplication.getPreference().getString(BIZ_PORT, "80");
+  }
+
+  public static void setBizPort(String port) {
+    ModemApplication.getPreference().edit().putString(BIZ_PORT, port).apply();
+  }
 }

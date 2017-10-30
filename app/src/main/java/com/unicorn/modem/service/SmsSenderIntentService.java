@@ -66,7 +66,11 @@ public class SmsSenderIntentService extends IntentService {
 
     } catch (SecurityException ex) {
       Toast.makeText(this, "SEND_SMS permission denied", Toast.LENGTH_LONG).show();
+      sms.setStatus(SmsStatus.FAILED.getValue());
+      smsDao.update(sms);
     } catch (Exception e) {
+      sms.setStatus(SmsStatus.FAILED.getValue());
+      smsDao.update(sms);
       e.printStackTrace();
     }
   }

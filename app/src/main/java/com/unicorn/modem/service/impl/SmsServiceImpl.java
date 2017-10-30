@@ -41,7 +41,7 @@ public class SmsServiceImpl {
     Log.d(TAG, DateConverter.getCurrentDate());
     SmsService userService = null;
     try {
-      userService = ServiceGenerator.createService(SmsService.class,true);
+      userService = ServiceGenerator.createService(SmsService.class, true);
       if (userService == null) {
         Toast.makeText(context, "Server not found!", Toast.LENGTH_LONG).show();
         return;
@@ -90,7 +90,7 @@ public class SmsServiceImpl {
 
     SmsService userService = null;
     try {
-      userService = ServiceGenerator.createService(SmsService.class,true);
+      userService = ServiceGenerator.createService(SmsService.class, true);
       if (userService == null) {
         Toast.makeText(context, "Server not found!", Toast.LENGTH_LONG).show();
         return;
@@ -128,7 +128,7 @@ public class SmsServiceImpl {
 
     SmsService userService = null;
     try {
-      userService = ServiceGenerator.createService(SmsService.class,false);
+      userService = ServiceGenerator.createService(SmsService.class, false);
       if (userService == null) {
         Toast.makeText(context, "Server not found!", Toast.LENGTH_LONG).show();
         EventBus.getDefault().post(new Event(400));
@@ -140,7 +140,7 @@ public class SmsServiceImpl {
       return;
     }
     Call<BizData> call = userService
-        .getBizData("http://www.autologicasystems.com/xmlmobilespec.asp?mypass="+passwordValue);
+        .getBizData("http://www.autologicasystems.com/xmlmobilespec.asp?mypass=" + passwordValue);
 
     call.enqueue(new Callback<BizData>() {
       @Override
@@ -151,6 +151,7 @@ public class SmsServiceImpl {
 
           PreferenceHelper.setServerUrl(bizData.getBizInfo().getUrl());
           PreferenceHelper.setBizId(bizData.getBizInfo().getBizId());
+          PreferenceHelper.setBizPort(String.valueOf(bizData.getBizInfo().getPort()));
           EventBus.getDefault().post(new Event(200));
         }
       }

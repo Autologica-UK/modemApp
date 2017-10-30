@@ -6,7 +6,7 @@ import org.simpleframework.xml.Root;
 /**
  * Created by arash on 10/2/17.
  */
-@Root(name = "root")
+@Root(name = "root", strict = false)
 public class BizData {
 
   @Element(name = "bizdata")

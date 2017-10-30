@@ -11,6 +11,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
+import org.simpleframework.xml.convert.AnnotationStrategy;
+import org.simpleframework.xml.core.Persister;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
@@ -69,12 +71,14 @@ public class ServiceGenerator {
     if (!API_BASE_URL.startsWith("http") && API_BASE_URL.startsWith("www")) {
       API_BASE_URL = "http://" + API_BASE_URL;
     }
+    API_BASE_URL = API_BASE_URL + ":" + PreferenceHelper.getBizPort();
     builder = new Retrofit.Builder()
         .baseUrl(API_BASE_URL);
     if (isJson) {
       builder.addConverterFactory(GsonConverterFactory.create());
     } else {
-      builder.addConverterFactory(SimpleXmlConverterFactory.create());
+      builder.addConverterFactory(
+          SimpleXmlConverterFactory.createNonStrict(new Persister(new AnnotationStrategy())));
     }
 
     builder.client(httpClient.build());
