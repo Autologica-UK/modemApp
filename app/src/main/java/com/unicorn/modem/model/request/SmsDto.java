@@ -1,5 +1,7 @@
 package com.unicorn.modem.model.request;
 
+import com.unicorn.modem.util.PreferenceHelper;
+
 /**
  * Created by arash on 9/23/17.
  */
@@ -9,6 +11,7 @@ public class SmsDto {
   private Long id;
   private String mobileNumber;
   private String smsText;
+  private Integer businessId;
 
   public SmsDto() {
   }
@@ -17,6 +20,7 @@ public class SmsDto {
     this.id = id;
     this.mobileNumber = mobileNumber;
     this.smsText = smsText;
+    this.businessId = PreferenceHelper.getBizId();
   }
 
   @Override
@@ -25,6 +29,7 @@ public class SmsDto {
         "id=" + id +
         ", mobileNumber='" + mobileNumber + '\'' +
         ", smsText='" + smsText + '\'' +
+        ", businessId=" + businessId +
         '}';
   }
 
@@ -50,5 +55,13 @@ public class SmsDto {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public Integer getBusinessId() {
+    return businessId;
+  }
+
+  public void setBusinessId(Integer businessId) {
+    this.businessId = businessId;
   }
 }
