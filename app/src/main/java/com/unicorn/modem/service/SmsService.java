@@ -16,8 +16,9 @@ import retrofit2.http.Url;
 
 public interface SmsService {
 
-  @GET("/utdsweb/smsoutboundandj.jsp")
-  Call<SmsResponse> getSmsList(@Query("biz") int bizId, @Query("mdm") int modemNo);
+  //  @GET("/utdsweb/smsoutboundandj.jsp")
+  @GET()
+  Call<SmsResponse> getSmsList(@Url String url, @Query("biz") int bizId, @Query("mdm") int modemNo);
 
   @POST("/utds/pda/receiveSMS")
   Call<SmsResponse> sendSms(@Body SmsDto smsDto);

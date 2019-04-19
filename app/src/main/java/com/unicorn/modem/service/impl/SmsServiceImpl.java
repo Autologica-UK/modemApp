@@ -31,6 +31,7 @@ import retrofit2.Response;
 public class SmsServiceImpl {
 
   private static final String TAG = SmsServiceImpl.class.getSimpleName();
+  private static final String SMS_OUTBOUND_URL = "http://www.uk-cabs.co.uk:8085/docs/smsoutboundandj.jsp";
   private final Context context;
 
   public SmsServiceImpl(Context context) {
@@ -51,7 +52,7 @@ public class SmsServiceImpl {
       return;
     }
     Call<SmsResponse> call = userService
-        .getSmsList(PreferenceHelper.getBizId(), PreferenceHelper.getModemNo());
+        .getSmsList(SMS_OUTBOUND_URL, PreferenceHelper.getBizId(), PreferenceHelper.getModemNo());
 
     call.enqueue(new Callback<SmsResponse>() {
       @Override
